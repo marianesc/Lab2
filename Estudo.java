@@ -15,10 +15,13 @@ public class Estudo {
 	}
 	
 	public boolean deveDescansar() {
-		if (this.minutos > 120) return true;
-		else return false;
+		return this.minutos >= 120;
 	}
-
+	
+	public int getMinutos() {
+		return this.minutos;
+	}
+	
 	public String toString() {
 		return this.assunto + " (" + this.minutos + " min)";
 	}

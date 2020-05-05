@@ -1,51 +1,83 @@
 package lab2;
 
+import java.util.ArrayList;
+
 public class Lazer {
 	
 	private String tipo;
 	private int limite;
-	private int somaTempo;
-	private int numAtividades;
-	private String saida;
-	
+	private ArrayList<String> descricoes;
+	private ArrayList<Integer> tempo;
+
 	public Lazer(String tipo, int limite) {
 		this.tipo = tipo;
 		this.limite = limite;
-		this.saida = "";
-		this.numAtividades = 0;
-		this.somaTempo = 0;
+		this.descricoes = new ArrayList<String>();
+		this.tempo = new ArrayList<Integer>();
 	}
 	
 	public Lazer(String tipo) {
 		this.tipo = tipo;
 		this.limite = 60;
-		this.saida = "";
-		this.numAtividades = 0;
-		this.somaTempo = 0;
+		this.descricoes = new ArrayList<String>();
+		this.tempo = new ArrayList<Integer>();
 	}
 	
+	
 	public void cadastraAtividade(String nome, int minutos) {
-		this.somaTempo += minutos;
-		this.numAtividades++;
-		if (this.somaTempo <= this.limite && this.numAtividades <= this.limite) {
-			if (this.saida.equals("")) this.saida += nome;
-			else this.saida += ", " + nome;
+		if (!this.descricoes.contains(nome)) {
+			int somaTempo = tempoTotal() + minutos;
+			int numAtividades = totalAtividades() + 1;
+			if (somaTempo <= this.limite && numAtividades <= this.limite) {
+				this.descricoes.add(nome);
+				this.tempo.add(minutos);
+			}
 		}
-		else {
-			this.somaTempo -= minutos;
-			this.numAtividades--;
-		}
+			
 	}
 	
 	public int totalAtividades() {
-		return this.numAtividades;
+		return this.descricoes.size();
 	}
 
 	public int tempoTotal() {
-		return this.somaTempo;
+		int tempoTotal = 0;
+		for (int elem : this.tempo) {
+			tempoTotal += elem;
+		}
+		return tempoTotal;
+	}
+	
+	public String maiorAtividade() {
+		String ehMaior = "";
+		int maior = 0;
+		for (int i = 0; i < this.tempo.size(); i++) {
+			if (this.tempo.get(i) >= maior) {
+				maior = this.tempo.get(i);
+				ehMaior = this.descricoes.get(i);
+			}
+		}
+		return ehMaior;
+	}
+	
+	public String menorAtividade() {
+		String ehMenor = "";
+		int menor = this.limite;
+		for (int i = 0; i < this.tempo.size(); i++) {
+			if (this.tempo.get(i) <= menor) {
+				menor = this.tempo.get(i);
+				ehMenor = this.descricoes.get(i);
+			}
+		}
+		return ehMenor;
 	}
 	
 	public String toString() {
-		return this.tipo + ": " + this.saida;
+		String saida = "";
+		for (String elem : this.descricoes) {
+			if (saida.equals("")) saida += elem;
+			else saida += ", " + elem;
+		}
+		return this.tipo + ": " + saida;
 	}
 }
