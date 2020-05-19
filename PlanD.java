@@ -1,4 +1,4 @@
-package lab2;
+/**package lab2;
 
 
 public class PlanD {
@@ -105,4 +105,4 @@ public class PlanD {
 
     }  
 
-}
+}*/
